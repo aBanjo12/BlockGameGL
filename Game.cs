@@ -4,7 +4,10 @@ using Silk.NET.Windowing;
 using System;
 using System.Linq;
 using System.Numerics;
+using BlockGameGL.Render;
 using Silk.NET.Maths;
+using Shader = BlockGameGL.Render.Shader;
+using Texture = BlockGameGL.Render.Texture;
 
 namespace BlockGameGL;
 
@@ -212,7 +215,7 @@ public class Game
             }
         }
 
-        private unsafe void OnMouseWheel(IMouse mouse, ScrollWheel scrollWheel)
+        private void OnMouseWheel(IMouse mouse, ScrollWheel scrollWheel)
         {
             //We don't want to be able to zoom in too close or too far away so clamp to these values
             CameraZoom = Math.Clamp(CameraZoom - scrollWheel.Y, 1.0f, 45f);

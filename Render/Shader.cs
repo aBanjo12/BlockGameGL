@@ -1,9 +1,7 @@
-using System;
-using System.IO;
 using System.Numerics;
 using Silk.NET.OpenGL;
 
-namespace BlockGameGL
+namespace BlockGameGL.Render
 {
     public class Shader : IDisposable
     {

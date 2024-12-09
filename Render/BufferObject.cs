@@ -1,6 +1,6 @@
 using Silk.NET.OpenGL;
 
-namespace BlockGameGL
+namespace BlockGameGL.Render
 {
     public class BufferObject<TDataType> : IDisposable
         where TDataType : unmanaged

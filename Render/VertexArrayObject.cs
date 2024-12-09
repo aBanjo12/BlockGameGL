@@ -1,7 +1,6 @@
 using Silk.NET.OpenGL;
-using System;
 
-namespace BlockGameGL
+namespace BlockGameGL.Render
 {
     public class VertexArrayObject<TVertexType, TIndexType> : IDisposable
         where TVertexType : unmanaged
