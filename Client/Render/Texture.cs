@@ -2,7 +2,7 @@ using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace BlockGameGL.Render
+namespace BlockGameGL.Client.Render
 {
     public class Texture : IDisposable
     {
