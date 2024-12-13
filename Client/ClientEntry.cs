@@ -1,9 +1,11 @@
+using BlockGameGL.Client.Render;
+
 namespace BlockGameGL.Client;
 
 public class ClientEntry
 {
-    public static void ClientMain()
+    public void ClientMain()
     {
-        
+        new GameWindow().Run();
     }
 }

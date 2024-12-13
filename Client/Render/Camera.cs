@@ -14,6 +14,8 @@ public class Camera
     private float CameraPitch = 0f;
     private float CameraZoom = 45f;
     
+    private Vector2 LastMousePosition = default;
+    
     int difference = 0;//(float) (window.Time * 100);
     private float aspectRatio = 16f / 9f;
     
@@ -62,25 +64,23 @@ public class Camera
         }
     }
     
-    var moveSpeed = 2.5f * (float) deltaTime;
-
     private void onW()
     {
-        CameraPosition += moveSpeed * CameraFront;
+        CameraPosition += CameraFront;
     }
 
     private void onS()
     {
-        CameraPosition -= moveSpeed * CameraFront;
+        CameraPosition -= CameraFront;
     }
 
     private void onA()
     {
-        CameraPosition -= Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
+        CameraPosition -= Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp));
     }
 
     private void onD()
     {
-        CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
+        CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp));
     }
 }

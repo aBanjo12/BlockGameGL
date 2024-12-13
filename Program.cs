@@ -1,3 +1,4 @@
 ﻿using BlockGameGL;
+using BlockGameGL.Client;
 
-new Game().Run();
+new ClientEntry().ClientMain();
