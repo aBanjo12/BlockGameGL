@@ -14,6 +14,7 @@ public class GameRenderer
     private Texture Texture;
     private Shader Shader;
     private GL Gl;
+    private IWindow window;
     
     private readonly float[] Vertices =
     {
@@ -67,15 +68,16 @@ public class GameRenderer
         1, 2, 3
     };
 
-    public void InitGlAndInput(IWindow window)
+    public void SetWindow(IWindow window)
     {
-        var input = window.CreateInput();
-        
-        Gl = GL.GetApi(window);
+        this.window = window;
     }
 
     public void OnLoad()
     {
+        var input = window.CreateInput();
+        Gl = GL.GetApi(window);
+        
         Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
         Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
         Vao = new VertexArrayObject<float, uint>(Gl, Vbo, Ebo);
@@ -83,7 +85,7 @@ public class GameRenderer
         Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
         Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
 
-        Shader = new Shader(Gl, "shader.vert", "shader.frag");
+        Shader = new Shader(Gl, "Client/Render/Shaders/shader.vert", "Client/Render/Shaders/shader.frag");
 
         Texture = new Texture(Gl, "silk.png");
     }

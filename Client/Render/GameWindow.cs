@@ -17,13 +17,14 @@ public class GameWindow
         options.Size = new Vector2D<int>(800, 600);
         options.Title = "LearnOpenGL with Silk.NET";
         window = Window.Create(options);
-
+        
         window.Load += Renderer.OnLoad;
         //update
         window.Render += Renderer.OnRender;
         window.FramebufferResize += Renderer.OnFramebufferResize;
         window.Closing += Renderer.OnClose;
 
+        Renderer.SetWindow(window);
         window.Run();
 
         window.Dispose();
