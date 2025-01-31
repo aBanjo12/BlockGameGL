@@ -9,7 +9,7 @@ namespace BlockGameGL.Client.Render;
 public class GameWindow
 {
     private IWindow window; 
-    private GameRenderer Renderer = new GameRenderer();
+    private GameRenderer Renderer = new();
     
     public void Run()
     {
@@ -19,10 +19,10 @@ public class GameWindow
         window = Window.Create(options);
         
         window.Load += Renderer.OnLoad;
-        //update
         window.Render += Renderer.OnRender;
         window.FramebufferResize += Renderer.OnFramebufferResize;
         window.Closing += Renderer.OnClose;
+        window.Update += Renderer.OnUpdate;
 
         Renderer.SetWindow(window);
         window.Run();

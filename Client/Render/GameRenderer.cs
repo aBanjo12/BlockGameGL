@@ -15,6 +15,7 @@ public class GameRenderer
     private Shader Shader;
     private GL Gl;
     private IWindow window;
+    private Camera Camera;
     
     private readonly float[] Vertices =
     {
@@ -76,7 +77,12 @@ public class GameRenderer
     public void OnLoad()
     {
         var input = window.CreateInput();
+        Input.Input.InputContext = input;
+        Input.Input.MouseInput.Init(input);
+        Input.Input.KeyboardEvents.Init(input);
         Gl = GL.GetApi(window);
+
+        Camera = new Camera();
         
         Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
         Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
@@ -99,9 +105,16 @@ public class GameRenderer
         Texture.Bind();
         Shader.Use();
         Shader.SetUniform("uTexture0", 0);
+        
+        Camera.SetUniforms(ref Shader);
 
         //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
         Gl.DrawArrays(PrimitiveType.Triangles, 0, 36);
+    }
+    
+    public void OnUpdate(double deltaTime)
+    {
+        Input.Input.KeyboardEvents.PollHeldEvents();
     }
 
     public void OnFramebufferResize(Vector2D<int> newSize)

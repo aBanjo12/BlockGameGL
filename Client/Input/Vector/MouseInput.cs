@@ -1,3 +1,4 @@
+using System.Numerics;
 using BlockGameGL.Client.Input.Button;
 using Silk.NET.Input;
 
@@ -5,7 +6,9 @@ namespace BlockGameGL.Client.Input.Vector;
 
 public class MouseInput : IInputEvents<MouseButton>
 {
-    private IMouse primaryMouse;
+    public IMouse PrimaryMouse;
+    public Dictionary<MouseButton, Action> KeyEvents { get; set; }
+
     
     public MouseInput()
     {
@@ -18,9 +21,20 @@ public class MouseInput : IInputEvents<MouseButton>
     
     public void Init(IInputContext input)
     {
-        primaryMouse = input.Mice.FirstOrDefault();
-        primaryMouse.Cursor.CursorMode = CursorMode.Raw;
+        PrimaryMouse = input.Mice.FirstOrDefault();
+
+        if (PrimaryMouse != null)
+        {
+            PrimaryMouse.Cursor.CursorMode = CursorMode.Raw;
+            PrimaryMouse.MouseDown += PollEvents;
+        }
     }
 
-    public Dictionary<MouseButton, Action> KeyEvents { get; set; }
+    public void PollEvents(IMouse mouse, MouseButton button)
+    {
+        if (mouse.Index == PrimaryMouse.Index)
+        {
+            KeyEvents[button].Invoke();
+        }
+    }
 }

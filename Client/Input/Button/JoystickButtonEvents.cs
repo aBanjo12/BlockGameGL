@@ -14,7 +14,7 @@ public class JoystickButtonEvents : IInputEvents<Silk.NET.Input.Button>
     {
         foreach (Silk.NET.Input.Button button in Enum.GetValues(typeof(Silk.NET.Input.Button)))
         {
-            KeyEvents.Add(button, () => { Console.WriteLine("pressed " + button); });
+            //KeyEvents.Add(button, () => { Console.WriteLine("pressed " + button); });
         }
     }
 

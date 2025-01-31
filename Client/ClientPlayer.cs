@@ -6,6 +6,4 @@ namespace BlockGameGL.Client;
 public class ClientPlayer
 {
     public Camera PlayerCamera = new Camera();
-    
-    
 }

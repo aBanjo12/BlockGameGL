@@ -1,4 +1,5 @@
 using System.Numerics;
+using BlockGameGL.Client.Input;
 using Silk.NET.Input;
 
 namespace BlockGameGL.Client.Render;
@@ -15,9 +16,19 @@ public class Camera
     private float CameraZoom = 45f;
     
     private Vector2 LastMousePosition = default;
-    
-    int difference = 0;//(float) (window.Time * 100);
+
+    float movespeed = 0.05f;//(float) (window.Time * 100);
     private float aspectRatio = 16f / 9f;
+
+    public Camera()
+    {
+        Input.Input.HeldActions.Add(BindActions.MoveForward, onW);
+        Input.Input.HeldActions.Add(BindActions.MoveBackward, onS);
+        Input.Input.HeldActions.Add(BindActions.MoveLeft, onA);
+        Input.Input.HeldActions.Add(BindActions.MoveRight, onD);
+        Input.Input.MouseInput.PrimaryMouse.MouseMove += OnMouseMove;
+        Console.WriteLine("Mouse move registeted");
+    }
     
     public void SetUniforms(ref Shader shader)
     {
@@ -43,6 +54,7 @@ public class Camera
     
     private void OnMouseMove(IMouse mouse, Vector2 position)
     {
+        Console.WriteLine("Mouse Moved");
         var lookSensitivity = 0.1f;
         if (LastMousePosition == default) { LastMousePosition = position; }
         else
@@ -66,21 +78,21 @@ public class Camera
     
     private void onW()
     {
-        CameraPosition += CameraFront;
+        CameraPosition += CameraFront * new Vector3(movespeed);
     }
 
     private void onS()
     {
-        CameraPosition -= CameraFront;
+        CameraPosition -= CameraFront * new Vector3(movespeed);
     }
 
     private void onA()
     {
-        CameraPosition -= Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp));
+        CameraPosition -= Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * new Vector3(movespeed);
     }
 
     private void onD()
     {
-        CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp));
+        CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * new Vector3(movespeed);
     }
 }

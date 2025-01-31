@@ -4,29 +4,71 @@ namespace BlockGameGL.Client.Input.Button;
 
 public class KeyboardEvents : IInputEvents<Key>
 {
-    private IKeyboard primaryKeyboard;
+    public IKeyboard PrimaryKeyboard;
 
     public Dictionary<Key, Action> KeyEvents { get; set; } = new();
+    public List<Key> HeldKeys = new();
+
     public KeyboardEvents()
     {
         foreach (Key key in Enum.GetValues(typeof(Key)))
         {
-            KeyEvents.Add(key, () => { Console.WriteLine("pressed " + key); });
+            try
+            {
+                KeyEvents.Add(key, () => { });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
-    }
 
+        foreach (var pair in KeybindList.Keybinds)
+        {
+            if (pair.Key.Item2)
+            {
+                KeyEvents[pair.Key.Item1] = () => { Input.HeldActions[pair.Value].Invoke(); };
+                continue;
+            }
+
+            KeyEvents[pair.Key.Item1] = () => { Input.BindActions[pair.Value].Invoke(); };
+
+        }
+    } 
+    
     public void Init(IInputContext input)
     {
-        primaryKeyboard = input.Keyboards.FirstOrDefault();
-        if (primaryKeyboard != null)
+        PrimaryKeyboard = input.Keyboards.FirstOrDefault();
+        if (PrimaryKeyboard != null)
         {
-            primaryKeyboard.KeyDown += PollEvents;
+            PrimaryKeyboard.KeyDown += PollPressedEvents;
+            PrimaryKeyboard.KeyUp += PollKeyUp;
         }
     }
 
-    public void PollEvents(IKeyboard keyboard, Key key, int arg)
+    public void PollHeldEvents()
     {
-        if (keyboard.Index == primaryKeyboard.Index)
+        foreach (var key in HeldKeys)
+        {
             KeyEvents[key].Invoke();
+        }
+    }
+
+    public void PollPressedEvents(IKeyboard keyboard, Key key, int arg)
+    {
+        if (!HeldKeys.Contains(key))
+        {
+            HeldKeys.Add(key);
+        }
+        if (keyboard.Index == PrimaryKeyboard.Index)
+            KeyEvents[key].Invoke();
+    }
+
+    public void PollKeyUp(IKeyboard keyboard, Key key, int arg)
+    {
+        if (HeldKeys.Contains(key))
+        {
+            HeldKeys.Remove(key);
+        }
     }
 }
