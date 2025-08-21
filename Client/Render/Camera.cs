@@ -26,6 +26,8 @@ public class Camera
         Input.Input.HeldActions.Add(BindActions.MoveBackward, onS);
         Input.Input.HeldActions.Add(BindActions.MoveLeft, onA);
         Input.Input.HeldActions.Add(BindActions.MoveRight, onD);
+        Input.Input.HeldActions.Add(BindActions.MoveUp, onSpace);
+        Input.Input.HeldActions.Add(BindActions.MoveDown, onShift);
         Input.Input.MouseInput.PrimaryMouse.MouseMove += OnMouseMove;
         Console.WriteLine("Mouse move registeted");
     }
@@ -94,5 +96,15 @@ public class Camera
     private void onD()
     {
         CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * new Vector3(movespeed);
+    }
+    
+    private void onSpace()
+    {
+        CameraPosition += CameraUp * new Vector3(movespeed);
+    }
+    
+    private void onShift()
+    {
+        CameraPosition += -CameraUp * new Vector3(movespeed);
     }
 }

@@ -9,6 +9,8 @@ public static class KeybindList
         { (Key.W, true), BindActions.MoveForward },
         { (Key.S, true), BindActions.MoveBackward },
         { (Key.A, true), BindActions.MoveLeft },
-        { (Key.D, true), BindActions.MoveRight }
+        { (Key.D, true), BindActions.MoveRight },
+        { (Key.Space, true), BindActions.MoveUp},
+        { (Key.ShiftLeft, true), BindActions.MoveDown},
     };
 }

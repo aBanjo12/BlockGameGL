@@ -6,4 +6,6 @@ public enum BindActions
     MoveBackward,
     MoveLeft,
     MoveRight,
+    MoveUp,
+    MoveDown,
 }
