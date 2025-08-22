@@ -41,7 +41,7 @@ public class Camera
 
     public Matrix4x4 GetModelMatrix()
     {
-        return Matrix4x4.CreateRotationY(MathHelper.DegreesToRadians(0)) * Matrix4x4.CreateRotationX(MathHelper.DegreesToRadians(0));
+        return Matrix4x4.CreateTranslation(0, 0, 0);
     }
 
     public Matrix4x4 GetViewMatrix()
