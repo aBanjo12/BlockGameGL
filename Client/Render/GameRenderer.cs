@@ -93,7 +93,7 @@ public class GameRenderer
 
         Shader = new Shader(Gl, "Client/Render/Shaders/shader.vert", "Client/Render/Shaders/shader.frag");
 
-        Texture = new Texture(Gl, "silk.png");
+        Texture = new Texture(Gl, "block.jpg");
     }
 
     public void OnRender(double deltaTime)

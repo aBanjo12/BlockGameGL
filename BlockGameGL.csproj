@@ -14,13 +14,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="silk.png">
+      <None Update="block.jpg">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Server\World\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -56,7 +56,6 @@ public class Camera
     
     private void OnMouseMove(IMouse mouse, Vector2 position)
     {
-        Console.WriteLine("Mouse Moved");
         var lookSensitivity = 0.1f;
         if (LastMousePosition == default) { LastMousePosition = position; }
         else
