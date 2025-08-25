@@ -1,4 +1,5 @@
 using System.Numerics;
+using BlockGameGL.Client.World;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
@@ -8,16 +9,16 @@ namespace BlockGameGL.Client.Render;
 
 public class GameRenderer
 {
-    private BufferObject<float> Vbo;
-    private BufferObject<uint> Ebo;
-    private VertexArrayObject<float, uint> Vao;
+    //private BufferObject<float> Vbo;
+    //private BufferObject<uint> Ebo;
+    //private VertexArrayObject<float> Vao;
     private Texture Texture;
     private Shader Shader;
     private GL Gl;
     private IWindow window;
     private Camera Camera;
     
-    private readonly float[] Vertices =
+    /*private readonly float[] Vertices =
     {
         //X    Y      Z       U     V
         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
@@ -61,13 +62,7 @@ public class GameRenderer
          0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
         -0.5f,  0.5f, -0.5f,  0.0f, 0.0f
-    };
-
-    private readonly uint[] Indices =
-    {
-        0, 1, 3,
-        1, 2, 3
-    };
+    };*/
 
     public void SetWindow(IWindow window)
     {
@@ -81,15 +76,15 @@ public class GameRenderer
         Input.Input.MouseInput.Init(input);
         Input.Input.KeyboardEvents.Init(input);
         Gl = GL.GetApi(window);
+        ClientWorld.Instance = new ClientWorld(Gl);
 
         Camera = new Camera();
         
-        Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
-        Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
-        Vao = new VertexArrayObject<float, uint>(Gl, Vbo, Ebo);
+        //Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
+        //ao = new VertexArrayObject<float>(Gl, Vbo);
 
-        Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
-        Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
+        //Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
+        //Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
 
         Shader = new Shader(Gl, "Client/Render/Shaders/shader.vert", "Client/Render/Shaders/shader.frag");
 
@@ -101,7 +96,7 @@ public class GameRenderer
         Gl.Enable(EnableCap.DepthTest);
         Gl.Clear((uint) (ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
 
-        Vao.Bind();
+        ClientWorld.Instance.Chunks[0,0].Mesh.Bind();
         Texture.Bind();
         Shader.Use();
         Shader.SetUniform("uTexture0", 0);
@@ -124,9 +119,7 @@ public class GameRenderer
 
     public void OnClose()
     {
-        Vbo.Dispose();
-        Ebo.Dispose();
-        Vao.Dispose();
+        ClientWorld.Instance.Chunks[0,0].Mesh.Dispose();
         Shader.Dispose();
         Texture.Dispose();
     }

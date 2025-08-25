@@ -1,14 +1,20 @@
 using BlockGameGL.Client.World.Block;
+using Silk.NET.OpenGL;
 
 namespace BlockGameGL.Client.World;
 
 public class ClientWorld
 {
+    public static ClientWorld Instance = null;
+    
     public ClientChunk[,] Chunks = new ClientChunk[8, 8];
-    public IBlock[] Blocks = [new BlockDirt()];
+    public Block.Block[] Blocks = [new BlockDirt()];
 
-    public ClientWorld()
+    private GL _gl;
+    
+    public ClientWorld(GL gl)
     {
-        Chunks[0,0] = new ClientChunk(new[,,] {{{0}}});
+        _gl = gl;
+        Chunks[0,0] = new ClientChunk(_gl, new Block.Block[,,] {{{new BlockDirt(), new BlockDirt()}}});
     }
 }
