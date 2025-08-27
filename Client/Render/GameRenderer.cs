@@ -77,11 +77,19 @@ public class GameRenderer
         Input.Input.KeyboardEvents.Init(input);
         Gl = GL.GetApi(window);
         ClientWorld.Instance = new ClientWorld(Gl);
+        Gl.Disable(EnableCap.CullFace);
+        Gl.Enable(GLEnum.DebugOutput);
+        Gl.Enable(GLEnum.DebugOutputSynchronous);
+        Gl.DebugMessageCallback((source, type, id, severity, length, message, userParam) =>
+        {
+            string msg = Silk.NET.Core.Native.SilkMarshal.PtrToString((nint)message);
+            Console.WriteLine($"[OpenGL] {type} {severity} {id}: {msg}");
+        }, IntPtr.Zero);
 
         Camera = new Camera();
         
         //Vbo = new BufferObject<float>(Gl, Vertices, BufferTargetARB.ArrayBuffer);
-        //ao = new VertexArrayObject<float>(Gl, Vbo);
+        //Vao = new VertexArrayObject<float>(Gl, Vbo);
 
         //Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 5, 0);
         //Vao.VertexAttributePointer(1, 2, VertexAttribPointerType.Float, 5, 3);
@@ -99,12 +107,12 @@ public class GameRenderer
         ClientWorld.Instance.Chunks[0,0].Mesh.Bind();
         Texture.Bind();
         Shader.Use();
-        Shader.SetUniform("uTexture0", 0);
+        //Shader.SetUniform("uTexture0", 0);
         
         Camera.SetUniforms(ref Shader);
 
         //We're drawing with just vertices and no indices, and it takes 36 vertices to have a six-sided textured cube
-        Gl.DrawArrays(PrimitiveType.Triangles, 0, 36);
+        Gl.DrawElements(PrimitiveType.Triangles, ClientWorld.Instance.Chunks[0,0].Mesh.IndexCount, DrawElementsType.UnsignedInt, UIntPtr.Zero);
     }
     
     public void OnUpdate(double deltaTime)

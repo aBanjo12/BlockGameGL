@@ -15,6 +15,8 @@ public class ClientWorld
     public ClientWorld(GL gl)
     {
         _gl = gl;
-        Chunks[0,0] = new ClientChunk(_gl, new Block.Block[,,] {{{new BlockDirt(), new BlockDirt()}}});
+        Block.Block[,,] blocks = new Block.Block[16, 16, 16];
+        blocks[0, 0, 0] = new BlockDirt();
+        Chunks[0,0] = new ClientChunk(_gl, blocks);
     }
 }

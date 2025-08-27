@@ -7,10 +7,10 @@ namespace BlockGameGL.Client.Render;
 public class Camera
 {
     //Setup the camera's location, directions, and movement speed
-    private Vector3 CameraPosition = new Vector3(0.0f, 0.0f, 3.0f);
+    private Vector3 CameraPosition = new Vector3(8.0f, 8.0f, 32.0f);
     private Vector3 CameraFront = new Vector3(0.0f, 0.0f, -1.0f);
     private Vector3 CameraUp = Vector3.UnitY;
-    private Vector3 CameraDirection = Vector3.Zero;
+    private Vector3 CameraDirection = new Vector3(8.0f, 8.0f, 8.0f);
     private float CameraYaw = -90f;
     private float CameraPitch = 0f;
     private float CameraZoom = 45f;
